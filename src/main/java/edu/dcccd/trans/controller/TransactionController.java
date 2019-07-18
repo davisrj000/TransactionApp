@@ -1,7 +1,6 @@
 package edu.dcccd.trans.controller;
 
 import edu.dcccd.trans.entity.Transaction;
-import edu.dcccd.trans.repository.SingletonTransaction;
 import edu.dcccd.trans.service.TransactionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +15,10 @@ import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 
 @Controller
 public class TransactionController {
@@ -30,10 +33,9 @@ public class TransactionController {
     }
     @GetMapping("/transaction")
     public String loadTransactionPage(Model model){
-        List<Transaction> transactions = transactionService.getAllTransaction();
         model.addAttribute("transactionForm", new Transaction());
         model.addAttribute("days",getDays());
-        model.addAttribute("transactions", transactions);
+        model.addAttribute("transactions", transactionService.getAllTransaction());
         return "transaction";
     }
     @PostMapping(value="/create")
@@ -53,7 +55,9 @@ public class TransactionController {
             model.addAttribute("errors", errors);
             return "transaction";
         }
-        transaction.setId(SingletonTransaction.getInstance().autoIncrementID+=1);
+        LocalDateTime now = LocalDateTime.now();
+        String time = now.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM));
+        transaction.setTime(time);
         transactionService.createTransaction(transaction);
         return "redirect:transaction";
     }

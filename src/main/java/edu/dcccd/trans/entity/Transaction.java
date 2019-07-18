@@ -1,25 +1,35 @@
 package edu.dcccd.trans.entity;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import javax.persistence.*;
+
 
 @Data
+@Entity
+@Table(name = "TRANSACTION")
 public class Transaction
 {
-    private Long id;
     private String time;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NotNull
     @NotEmpty
-    private String day;
+    public String day;
     @NotNull
     @NotEmpty
     private String description;
     @NotNull
+    @Column( precision=7, scale=2)
     private BigDecimal amount;
     @NotNull
     private String type;
