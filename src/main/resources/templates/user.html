@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- saved from url=(0120)https://dcccd.blackboard.com/bbcswebdav/pid-16787591-dt-content-rid-135795525_1/courses/2019SU-INEW-2438-25401/user.html -->
+<html xmlns:th="http://www.thymeleaf.org"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>User Page</title>
+</head>
+<body bgcolor="#6495ed">
+<!-- Include menu.html -->
+<th:block th:include="/menu"></th:block>
+
+
+<h2>User Page</h2>
+<h3>Welcome : <span th:utext="${#request.userPrincipal.name}"></span></h3>
+<b>This is protected page!</b>
+
+<br><br>
+
+<div th:if="${user != null}" th:utext="${user}"></div>
+
+
+
+</body></html>
